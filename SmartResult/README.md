@@ -103,13 +103,3 @@ SmartResult/
 5. Save. Only **one** row is allowed per **(pass-out year, academic year, semester)**. Use the **search box** on the Results changelist to filter by year or type e.g. `1st`, `semester 2`.  
 6. Students in that pass-out year see all uploaded semesters on their dashboard; they use **Search in PDF** with their roll number to find their line.
 
-## Notes for production / resume
-
-- Change `SECRET_KEY` and set `DEBUG = False` in `smart_result_portal/settings.py`.  
-- Serve **static** and **media** files with your web server (e.g. nginx), not only Django `runserver`.
-- 
-- To use **MySQL** instead of SQLite, add `mysqlclient`, define a `DATABASES["default"]` entry, and run `migrate` again.
-
-## License
-
-Use freely for learning and portfolio projects.
