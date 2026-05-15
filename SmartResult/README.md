@@ -106,7 +106,8 @@ SmartResult/
 ## Notes for production / resume
 
 - Change `SECRET_KEY` and set `DEBUG = False` in `smart_result_portal/settings.py`.  
-- Serve **static** and **media** files with your web server (e.g. nginx), not only Django `runserver`.  
+- Serve **static** and **media** files with your web server (e.g. nginx), not only Django `runserver`.
+- 
 - To use **MySQL** instead of SQLite, add `mysqlclient`, define a `DATABASES["default"]` entry, and run `migrate` again.
 
 ## License
