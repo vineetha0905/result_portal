@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}View result — Smart Academic Result Portal{% endblock %}
+{% block content %}
+<div class="mb-3">
+  <a href="{% url 'results:dashboard' %}" class="btn btn-outline-secondary btn-sm">&larr; Back to dashboard</a>
+</div>
+
+<div class="card shadow-sm border-0 mb-3">
+  <div class="card-body">
+    <h1 class="h5 mb-1">{{ result.get_academic_year_display }} — {{ result.get_semester_display }}</h1>
+    <p class="text-muted small mb-1">Official publication &middot; Pass-out cohort: <strong>{{ result.pass_out_year }}</strong></p>
+    <p class="small text-muted mb-0">
+      Your roll number <strong class="text-body">{{ student_registration }}</strong> is prefilled below &mdash; use <strong>Search</strong> to find your row in this batch PDF. You can only open files published for your cohort.
+    </p>
+  </div>
+</div>
+
+<div class="card shadow-sm border-0">
+  <div class="card-header bg-white py-3 border-bottom">
+    <div class="row g-2 align-items-end">
+      <div class="col-md-6 col-lg-5">
+        <label for="pdfSearchInput" class="form-label small text-muted mb-1">Search inside this PDF</label>
+        <input type="search" id="pdfSearchInput" class="form-control" placeholder="Registration number or any text…" autocomplete="off">
+      </div>
+      <div class="col-md-auto d-flex gap-2 flex-wrap">
+        <button type="button" id="pdfSearchBtn" class="btn btn-primary">Search</button>
+        <button type="button" id="pdfSearchClear" class="btn btn-outline-secondary">Clear</button>
+        <button type="button" id="pdfSearchPrev" class="btn btn-outline-primary" disabled>Previous</button>
+        <button type="button" id="pdfSearchNext" class="btn btn-outline-primary" disabled>Next</button>
+      </div>
+      <div class="col-md-12 col-lg text-md-end">
+        <span id="pdfSearchStatus" class="small text-muted">Enter text and press Search.</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body bg-secondary bg-opacity-10 p-2 p-md-3">
+    <div id="pdfPages" class="d-flex flex-column align-items-center"><!-- pages rendered by PDF.js --></div>
+    <p id="pdfLoadError" class="text-danger d-none small mb-0"></p>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{# PDF.js (UMD) — worker URL must be set before loading the document #}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+  window.PDF_VIEWER_CONFIG = {
+    pdfUrl: "{{ pdf_url|escapejs }}",
+    workerSrc: "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js",
+    prefillSearch: "{{ student_registration|escapejs }}"
+  };
+  if (typeof pdfjsLib !== "undefined") {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = window.PDF_VIEWER_CONFIG.workerSrc;
+  }
+</script>
+<script src="{% static 'js/pdf_viewer.js' %}"></script>
+{% endblock %}

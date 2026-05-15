@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Dashboard — Smart Academic Result Portal{% endblock %}
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mb-4">
+  <div>
+    <h1 class="h3 mb-1">Your academic results</h1>
+    <p class="text-muted mb-1">
+      Signed in as <strong class="text-body">{{ registration_number }}</strong>
+      &middot; Pass-out cohort: <strong class="text-body">{{ pass_out_year }}</strong>
+    </p>
+    <p class="small text-muted mb-0">
+      You only see official publications for <strong>your cohort</strong>. Each PDF is shared by your batch;
+      open a semester and use <strong>Search in PDF</strong> to jump to your roll number. You cannot access other cohorts&rsquo; results.
+    </p>
+  </div>
+</div>
+
+<div class="alert alert-info small py-2 mb-4" role="status">
+  <strong>Privacy:</strong> Result links are filtered server-side by your account and pass-out year.
+  Previous semesters shown below are <strong>only</strong> those published for the same cohort you belong to.
+</div>
+
+<div class="row g-4">
+  {% for block in academic_years %}
+    <div class="col-md-6 col-xl-3">
+      <div class="card h-100 shadow-sm border-0 dashboard-year-card">
+        <div class="card-header bg-primary text-white py-3">
+          <h2 class="h5 mb-0">{{ block.label }}</h2>
+        </div>
+        <div class="card-body d-flex flex-column gap-2">
+          {% if block.results %}
+            {% for r in block.results %}
+              <a class="btn btn-outline-primary d-flex justify-content-between align-items-center"
+                 href="{% url 'results:view_pdf' r.pk %}">
+                <span>{{ r.get_semester_display }}</span>
+                <span class="small text-muted">PDF</span>
+              </a>
+            {% endfor %}
+          {% else %}
+            <p class="text-muted small mb-0">No official PDF uploaded for this academic year yet.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}

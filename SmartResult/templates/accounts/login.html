@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Log in — Smart Academic Result Portal{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-5">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-4">
+        <h1 class="h4 mb-3 text-center">Student login</h1>
+        <form method="post" novalidate>
+          {% csrf_token %}
+          {% if request.GET.next %}
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+          {% endif %}
+          {% for field in form %}
+            <div class="mb-3">
+              <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{ field }}
+              {% for err in field.errors %}<div class="invalid-feedback d-block">{{ err }}</div>{% endfor %}
+            </div>
+          {% endfor %}
+          <button type="submit" class="btn btn-primary w-100">Log in</button>
+        </form>
+        <p class="text-center mt-3 mb-0 small">
+          New student? <a href="{% url 'accounts:register' %}">Register</a>
+        </p>
+        <p class="text-center mt-2 mb-0 small text-muted">
+          Admin? Use <a href="{% url 'admin:index' %}">Django admin</a> (staff account).
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

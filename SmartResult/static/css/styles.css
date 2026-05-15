@@ -1,0 +1,33 @@
+/**
+ * Smart Academic Result Portal — small layout tweaks on top of Bootstrap.
+ */
+
+.dashboard-year-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dashboard-year-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08) !important;
+}
+
+/* PDF.js text layer sits above the canvas; spans are transparent until highlighted */
+.text-layer span {
+  position: absolute;
+  white-space: pre;
+  color: transparent;
+  transform-origin: 0 0;
+  line-height: 1;
+  cursor: text;
+}
+
+.text-layer span.pdf-highlight {
+  background-color: rgba(255, 235, 59, 0.55);
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgba(255, 193, 7, 0.6);
+}
+
+.pdf-page-wrap {
+  overflow: auto;
+  max-width: 100%;
+}
